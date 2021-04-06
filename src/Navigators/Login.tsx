@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Text,
   TouchableOpacity,
@@ -10,6 +11,7 @@ import {useGlobalStateUser} from '../Store';
 
 const Login = ({navigation}: any) => {
   const state = useGlobalStateUser();
+  const {t} = useTranslation();
 
   return (
     <View>
@@ -24,7 +26,7 @@ const Login = ({navigation}: any) => {
         style={styles.input}
       />
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-        <Text>Go to Home</Text>
+        <Text>{t('welcome')}</Text>
       </TouchableOpacity>
     </View>
   );
