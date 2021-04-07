@@ -1,3 +1,4 @@
+import {useState} from '@hookstate/core';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -7,26 +8,30 @@ import {
   TextInput,
   StyleSheet,
 } from 'react-native';
-import {useGlobalStateUser} from '../Store';
+import {useGlobalStateSession} from '../Store';
 
-const Login = ({navigation}: any) => {
-  const state = useGlobalStateUser();
+const Login = () => {
+  const session = useGlobalStateSession();
   const {t} = useTranslation();
+  const form = useState({
+    name: '',
+    password: '',
+  });
 
   return (
     <View>
       <TextInput
-        value={state.user.name.value}
-        onChangeText={state.user.name.set}
+        value={form.name.value}
+        onChangeText={form.name.set}
         style={styles.input}
       />
       <TextInput
-        value={state.user.phone.value}
-        onChangeText={state.user.phone.set}
+        value={form.password.value}
+        onChangeText={form.password.set}
         style={styles.input}
       />
-      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-        <Text>{t('welcome')}</Text>
+      <TouchableOpacity onPress={() => session.logged.set(true)}>
+        <Text>{t('enter')}</Text>
       </TouchableOpacity>
     </View>
   );
