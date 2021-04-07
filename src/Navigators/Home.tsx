@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {TodoInterface} from '../Models/TodoInterface';
@@ -8,6 +9,7 @@ import {useGlobalStateSession} from '../Store';
 const Home = () => {
   const [todo, setTodo] = React.useState<TodoInterface>();
   const session = useGlobalStateSession();
+  const {t} = useTranslation();
 
   React.useEffect(() => {
     getTodo().then(response => {
@@ -23,7 +25,7 @@ const Home = () => {
       <Text>Completed: {todo?.completed}</Text>
       <Text>{session.getUser().name.value}</Text>
       <TouchableOpacity onPress={() => session.logout()}>
-        <Text>Logout</Text>
+        <Text>{t('logout')}</Text>
       </TouchableOpacity>
     </View>
   );
