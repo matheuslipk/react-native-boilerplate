@@ -1,21 +1,27 @@
 import {createState, State, useState} from '@hookstate/core';
+import {SessionInterface} from '../Models/SessionInterface';
 
-export interface SessionInterface {
-  id: number;
-  name: string;
-  phone: string;
-  token: string;
-}
-
-const userState = createState({
-  id: 0,
-  name: '',
-  phone: '',
+const INITIAL_STATE = {
   token: '',
-} as SessionInterface);
+  logged: false,
+  user: {
+    id: 0,
+    name: '',
+    phone: '',
+    token: '',
+  },
+} as SessionInterface;
 
-const wrapState = (user: State<SessionInterface>) => ({
-  user,
+const userState = createState(INITIAL_STATE);
+
+const wrapState = (session: State<SessionInterface>) => ({
+  getUser: () => session.user,
+  token: session.token,
+  logged: session.logged,
+  logout: () => {
+    session.logged.set(false);
+    session.user.id.set(0);
+  },
 });
 
-export const useGlobalStateUser = () => wrapState(useState(userState));
+export const useGlobalStateSession = () => wrapState(useState(userState));
